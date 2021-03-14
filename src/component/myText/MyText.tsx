@@ -12,6 +12,7 @@ const MyText = styled.div<MyTextProps>`
   font-size: ${({ theme, myFont }) => theme.font[myFont].fontSize};
   line-height: ${({ theme, myFont }) => theme.font[myFont].lineHeight};
   letter-spacing: ${({ theme, myFont }) => theme.font[myFont].letterSpacing};
+  display: inline-block;
 `;
 
 export { MyText };

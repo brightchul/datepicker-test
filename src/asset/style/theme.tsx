@@ -30,11 +30,13 @@ interface MyColor {
   "silver-light": string;
   black: string;
   "black-12": string;
+  "black-16": string;
   "gray-20": string;
   "brownish-grey": string;
   "dodger-blue": string;
   "dodger-blue-008": string;
   "dodger-blue-darker": string;
+  "eggplant-80": string;
 }
 
 const theme: Theme = {
@@ -47,12 +49,16 @@ const theme: Theme = {
 
     black: "#000000",
     "black-12": "rgba(0,0,0,0.12)",
+    "black-16": "rgba(0,0,0,0.16)",
+
     "gray-20": "#333333",
     "brownish-grey": "#666666",
 
     "dodger-blue": "#4c80f1",
     "dodger-blue-008": "rgba(76, 128, 241, 0.08)",
     "dodger-blue-darker": "#4371d4",
+
+    "eggplant-80": "rgba(4, 4, 15, 0.8)",
   },
 
   font: {

@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { MyText } from "./component/myText";
-import { Dropdown } from "./component/dropdown";
-import { DatePicker } from "./component";
+import { MyText, Dropdown, DatePicker, ActionButton } from "./component";
 
 const TestPage: React.FC = () => {
   return (
@@ -63,10 +61,33 @@ const TestPage: React.FC = () => {
             </StartTimeSelectArea>
           </StartTimeWrapper>
         </SelectTimeAreaContent>
+        <ActionAreaWrapper>
+          <ActionArea>
+            <ActionButton>
+              <MyText myFont="medium-16">취소</MyText>
+            </ActionButton>
+            <ActionButton backgroundColor="dodger-blue">
+              <MyText myFont="medium-16" myColor="white">
+                완료
+              </MyText>
+            </ActionButton>
+          </ActionArea>
+        </ActionAreaWrapper>
       </SelectTimeAreaWrapper>
     </BackgroundWrapper>
   );
 };
+
+const ActionArea = styled.div`
+  display: inline-flex;
+  column-gap: 16px;
+`;
+
+const ActionAreaWrapper = styled.div`
+  text-align: right;
+  margin-top: 56px;
+  width: 100%;
+`;
 
 const Divider = styled.hr`
   width: 100%;

@@ -19,6 +19,7 @@ interface FontProps {
 interface MyFont {
   "bold-32": FontProps;
   "medium-14": FontProps;
+  "medium-16": FontProps;
   "regular-16": FontProps;
   "medium-18": FontProps;
 }
@@ -72,6 +73,12 @@ const theme: Theme = {
       fontFamily: "NotoSansCJKkr-Medium",
       fontSize: "14px",
       lineHeight: "18px",
+      letterSpacing: "0.9",
+    },
+    "medium-16": {
+      fontFamily: "NotoSansCJKkr-Medium",
+      fontSize: "16px",
+      lineHeight: "36px",
       letterSpacing: "0.9",
     },
     "regular-16": {

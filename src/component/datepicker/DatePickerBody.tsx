@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import React from "react";
+import dayjs from "dayjs";
+import React, { useState } from "react";
 import { MyText } from "../myText";
 
 interface DatePickerBodyWrapperProps {
@@ -25,11 +26,14 @@ const DatePickerBodyWrapper = styled.div<DatePickerBodyWrapperProps>`
   background-color: ${({ theme }) => theme.color.white};
 `;
 
+const DayNameArr = ["월", "화", "수", "목", "금", "토", "일"];
+
 const DatePickerBody: React.FC<DatePickerBodyProps> = ({
   isOpen,
   stateFunc,
   toggleFunc,
 }) => {
+  const [date, setDate] = useState(dayjs());
   return (
     <DatePickerBodyWrapper isOpen={isOpen}>
       <Header>
@@ -43,9 +47,43 @@ const DatePickerBody: React.FC<DatePickerBodyProps> = ({
           </IconWrapper>
         </ArrowWrapper>
       </Header>
+      <CalendarWrapper>
+        <DayNameArea>
+          {DayNameArr.map((name, idx) => (
+            <DayNameWrapper key={`${name}-${idx}`}>
+              <MyText myFont="medium-14" myColor="steel">
+                {name}
+              </MyText>
+            </DayNameWrapper>
+          ))}
+        </DayNameArea>
+        <DateArea></DateArea>
+      </CalendarWrapper>
     </DatePickerBodyWrapper>
   );
 };
+
+const DayNameArea = styled.div`
+  display: flex;
+  column-gap: 12px;
+`;
+
+const DateArea = styled.div`
+  margin-top: 12px;
+`;
+
+const DayNameWrapper = styled.div`
+  width: 32px;
+  height: 22px;
+  text-align: center;
+`;
+
+const CalendarWrapper = styled.div`
+  margin-top: 30px;
+  width: 100%;
+  min-height: 50%;
+  background-color: #eee;
+`;
 
 const ArrowWrapper = styled.div`
   display: flex;

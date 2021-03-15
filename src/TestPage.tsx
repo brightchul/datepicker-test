@@ -31,7 +31,7 @@ const TestPage: React.FC = () => {
               />
               <Dropdown
                 width="152px"
-                data={["0분", "10분", "20분", "30분", "40분", "50분"]}
+                data={["0분", "10분", "20분", "30분", "40분", "50분"]}
               />
             </StartTimeSelectArea>
           </StartTimeWrapper>
@@ -56,7 +56,7 @@ const TestPage: React.FC = () => {
               />
               <Dropdown
                 width="152px"
-                data={["0분", "10분", "20분", "30분", "40분", "50분"]}
+                data={["0분", "10분", "20분", "30분", "40분", "50분"]}
               />
             </StartTimeSelectArea>
           </StartTimeWrapper>
@@ -117,6 +117,8 @@ const SelectTimeAreaTitle = styled.div`
 
 const BackgroundWrapper = styled.div`
   position: fixed;
+  display: flex;
+  align-items:center;
   top: 0;
   width: 100%;
   height: 100%;
@@ -127,7 +129,7 @@ const SelectTimeAreaWrapper = styled.div`
   width: 824px;
   height: 485px;
   padding: 40px 84px;
-  margin: 25vh auto;
+  margin: 0 auto;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.color["white"]};
 `;

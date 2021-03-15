@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MyText } from "../myText";
 import DatePickerBody from "./DatePickerBody";
 
@@ -11,9 +11,24 @@ const DatePicker: React.FC<DatePickerProps> = ({ width }) => {
   const [selectedValue, setSelectedValue] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
+  
+  const selfRef = useRef<null | HTMLDivElement>(null);
+
+  useEffect(() => {
+    const clickCallback = (e : any) => {
+      setIsOpen(selfRef.current!.contains(e.target));
+    }
+
+    if(selfRef.current) {
+      document.addEventListener('click', clickCallback);
+    }
+    return () => document.removeEventListener("click", clickCallback);
+  }, []);
+
+
   return (
-    <DatePickerWrapper width={width}>
-      <DatePickerHeaderWrapper onClick={() => setIsOpen(!isOpen)}>
+    <DatePickerWrapper ref={selfRef} width={width}>
+      <DatePickerHeaderWrapper  onClick={() => setIsOpen(!isOpen)}>
         <MyText myFont="regular-16" myColor="black">
           {"selectedValue"}
         </MyText>

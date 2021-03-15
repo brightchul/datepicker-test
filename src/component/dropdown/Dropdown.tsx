@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MyText } from "../myText";
 import DropdownList from "./DropdownList";
 
@@ -12,9 +12,22 @@ const Dropdown: React.FC<DropdownProps> = ({ width, data }) => {
   const [selectedValue, setSelectedValue] = useState(data[0]);
   const [isOpen, setIsOpen] = useState(false);
 
+  const selfRef = useRef<null | HTMLDivElement>(null);
+  useEffect(() => {
+    const clickCallback = (e : any) => {
+      setIsOpen(selfRef.current!.contains(e.target));
+    }
+
+    if(selfRef.current) {
+      document.addEventListener('click', clickCallback);
+    }
+    return () => document.removeEventListener("click", clickCallback);
+    
+  }, []);
+
   return (
-    <DropdownWrapper width={width}>
-      <DropdownHeaderWrapper onClick={() => setIsOpen(!isOpen)}>
+    <DropdownWrapper  width={width} >
+      <DropdownHeaderWrapper ref={selfRef} >
         <MyText myFont="regular-16" myColor="black">
           {selectedValue}
         </MyText>
@@ -23,7 +36,6 @@ const Dropdown: React.FC<DropdownProps> = ({ width, data }) => {
       <DropdownList
         isOpen={isOpen}
         data={data}
-        toggleFunc={() => setIsOpen(!isOpen)}
         stateFunc={setSelectedValue}
       />
     </DropdownWrapper>

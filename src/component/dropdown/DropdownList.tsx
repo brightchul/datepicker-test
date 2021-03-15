@@ -16,7 +16,6 @@ interface DropdownListWrapperProps {
 
 interface DropdownListProps {
   isOpen: boolean;
-  toggleFunc: () => void;
   stateFunc: React.Dispatch<React.SetStateAction<any>>;
   data: any[];
 }
@@ -28,7 +27,7 @@ const DropdownListWrapper = styled.div<DropdownListWrapperProps>`
   margin-top: 8px;
   padding: 8px 0;
   border-radius: 8px;
-  overflow: scroll;
+  overflow-y: scroll;
   max-height: 236px;
   box-shadow: 0 4px 4px 0 ${({ theme }) => theme.color["black-16"]};
   background-color: ${({ theme }) => theme.color.white};
@@ -37,7 +36,6 @@ const DropdownListWrapper = styled.div<DropdownListWrapperProps>`
 const DropdownList: React.FC<DropdownListProps> = ({
   isOpen,
   stateFunc,
-  toggleFunc,
   data,
 }) => {
   return (
@@ -47,7 +45,6 @@ const DropdownList: React.FC<DropdownListProps> = ({
           key={`${one}-${idx}`}
           onClick={() => {
             stateFunc(one);
-            toggleFunc();
           }}
         >
           <MyText myFont="regular-16">{one}</MyText>

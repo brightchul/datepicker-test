@@ -17,7 +17,7 @@ const DatePickerBodyWrapper = styled.div<DatePickerBodyWrapperProps>`
   margin-top: 8px;
   padding: 8px 0;
   border-radius: 8px;
-  overflow: scroll;
+  overflow-y : scroll;
   max-height: 236px;
   box-shadow: 0 4px 4px 0 ${({ theme }) => theme.color["black-16"]};
   background-color: ${({ theme }) => theme.color.white};

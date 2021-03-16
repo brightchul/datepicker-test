@@ -28,6 +28,7 @@ interface MyColor {
   white: string;
   "white-smoke": string;
   steel: string;
+  ghost: string;
   silver: string;
   "silver-light": string;
   black: string;
@@ -37,6 +38,8 @@ interface MyColor {
   "gray-20": string;
   "brownish-grey": string;
   "dodger-blue": string;
+  "dodger-blue-001": string;
+  "dodger-blue-02": string;
   "dodger-blue-008": string;
   "dodger-blue-darker": string;
   "eggplant-80": string;
@@ -49,6 +52,7 @@ const theme: Theme = {
 
     steel: "#8a8a8f",
 
+    ghost: "#c8c7cc",
     silver: "#dadbdf",
     "silver-light": "#f9f9f9",
 
@@ -61,6 +65,8 @@ const theme: Theme = {
     "brownish-grey": "#666666",
 
     "dodger-blue": "#4c80f1",
+    "dodger-blue-001": "rgba(76, 128, 241, 0.01)",
+    "dodger-blue-02": "rgba(76, 128, 241, 0.2)",
     "dodger-blue-008": "rgba(76, 128, 241, 0.08)",
     "dodger-blue-darker": "#4371d4",
 

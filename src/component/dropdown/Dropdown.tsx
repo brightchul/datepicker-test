@@ -14,30 +14,25 @@ const Dropdown: React.FC<DropdownProps> = ({ width, data }) => {
 
   const selfRef = useRef<null | HTMLDivElement>(null);
   useEffect(() => {
-    const clickCallback = (e : any) => {
+    const clickCallback = (e: any) => {
       setIsOpen(selfRef.current!.contains(e.target));
-    }
+    };
 
-    if(selfRef.current) {
-      document.addEventListener('click', clickCallback);
+    if (selfRef.current) {
+      document.addEventListener("click", clickCallback);
     }
     return () => document.removeEventListener("click", clickCallback);
-    
   }, []);
 
   return (
-    <DropdownWrapper  width={width} >
-      <DropdownHeaderWrapper ref={selfRef} >
+    <DropdownWrapper width={width}>
+      <DropdownHeaderWrapper ref={selfRef}>
         <MyText myFont="regular-16" myColor="black">
           {selectedValue}
         </MyText>
         <img src="/svg/ic-arrow-drop-down.svg" alt="dropdown-icon" />
       </DropdownHeaderWrapper>
-      <DropdownList
-        isOpen={isOpen}
-        data={data}
-        stateFunc={setSelectedValue}
-      />
+      <DropdownList isOpen={isOpen} data={data} stateFunc={setSelectedValue} />
     </DropdownWrapper>
   );
 };
@@ -51,6 +46,7 @@ const DropdownHeaderWrapper = styled.div`
 `;
 
 const DropdownWrapper = styled.div<{ width?: string }>`
+  cursor: pointer;
   width: ${({ width }) => width || "100%"};
   user-select: none;
 `;

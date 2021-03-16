@@ -1,8 +1,12 @@
 import styled from "@emotion/styled";
-import React from "react";
+import dayjs from "dayjs";
+import React, { useState } from "react";
 import { MyText, Dropdown, DatePicker, ActionButton } from "./component";
 
 const TestPage: React.FC = () => {
+  const [startDate, setStartDate] = useState(dayjs());
+  const [endDate, setEndDate] = useState(startDate.add(1, "day"));
+
   return (
     <BackgroundWrapper>
       <SelectTimeAreaWrapper>
@@ -17,7 +21,13 @@ const TestPage: React.FC = () => {
               <MyText myFont="medium-14">응시 시작일</MyText>
             </StartTimeTitle>
             <StartTimeSelectArea>
-              <DatePicker width="236px"></DatePicker>
+              <DatePicker
+                width="236px"
+                selectedDate={startDate}
+                setFunc={setStartDate}
+                disabledDate={endDate}
+                disabledType={"after"}
+              />
               <Dropdown
                 width="152px"
                 data={Array(24)
@@ -42,7 +52,13 @@ const TestPage: React.FC = () => {
               <MyText myFont="medium-14">응시 마감일</MyText>
             </StartTimeTitle>
             <StartTimeSelectArea>
-              <DatePicker width="236px"></DatePicker>
+              <DatePicker
+                width="236px"
+                selectedDate={endDate}
+                setFunc={setEndDate}
+                disabledDate={startDate}
+                disabledType={"before"}
+              />
               <Dropdown
                 width="152px"
                 data={Array(24)
@@ -118,7 +134,7 @@ const SelectTimeAreaTitle = styled.div`
 const BackgroundWrapper = styled.div`
   position: fixed;
   display: flex;
-  align-items:center;
+  align-items: center;
   top: 0;
   width: 100%;
   height: 100%;

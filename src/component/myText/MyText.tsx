@@ -7,7 +7,8 @@ interface MyTextProps {
 }
 
 const MyText = styled.div<MyTextProps>`
-  color: ${({ theme, myColor = "black" }) => theme.color[myColor]};
+  color: ${({ theme, myColor }) =>
+    myColor ? theme.color[myColor] : "inherit"};
   font-family: ${({ theme, myFont }) => theme.font[myFont].fontFamily};
   font-size: ${({ theme, myFont }) => theme.font[myFont].fontSize};
   line-height: ${({ theme, myFont }) => theme.font[myFont].lineHeight};

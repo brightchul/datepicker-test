@@ -1,52 +1,79 @@
 import styled from "@emotion/styled";
 import { Dayjs } from "dayjs";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MyText } from "../myText";
 import DatePickerBody from "./DatePickerBody";
 
 interface DatePickerProps {
   width?: string;
+  backgroundHeight?: number;
   selectedDate: Dayjs;
   setFunc: any;
   disabledDate: Dayjs;
   disabledType: "before" | "after";
 }
 
-const DatePicker: React.FC<DatePickerProps> = ({
-  width,
-  selectedDate,
-  setFunc,
-  disabledDate,
-  disabledType,
-}) => {
+type UseDatePicker = (
+  selfRef: React.MutableRefObject<HTMLDivElement | null>,
+  backgroundHeight?: number
+) => [boolean, () => void, boolean];
+
+const useDatePicker: UseDatePicker = (selfRef, backgroundHeight) => {
   const [isOpen, setIsOpen] = useState(false);
-  const selfRef = useRef<null | HTMLDivElement>(null);
+  const [isReverse, setIsReverse] = useState(false);
+
+  const toggleOpen = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, [isOpen]);
 
   useEffect(() => {
+    if (selfRef && selfRef.current && backgroundHeight) {
+      setIsReverse(backgroundHeight < selfRef.current?.offsetTop + 392);
+    }
+
     const clickCallback = (e: any) => {
-      setIsOpen(selfRef.current!.contains(e.target));
+      if (selfRef && selfRef.current)
+        setIsOpen(selfRef.current.contains(e.target));
     };
 
     if (selfRef.current) {
       document.addEventListener("click", clickCallback);
     }
     return () => document.removeEventListener("click", clickCallback);
-  }, []);
+  }, [backgroundHeight, selfRef]);
+  return [isOpen, toggleOpen, isReverse];
+};
+
+const DatePicker: React.FC<DatePickerProps> = ({
+  width,
+  backgroundHeight,
+  selectedDate,
+  setFunc,
+  disabledDate,
+  disabledType,
+}) => {
+  const selfRef = useRef<null | HTMLDivElement>(null);
+
+  const [isOpen, toggleOpen, isReverse] = useDatePicker(
+    selfRef,
+    backgroundHeight
+  );
 
   return (
     <DatePickerWrapper ref={selfRef} width={width}>
-      <DatePickerHeaderWrapper onClick={() => setIsOpen(!isOpen)}>
+      <DatePickerHeaderWrapper onClick={toggleOpen}>
         <MyText myFont="regular-16" myColor="black">
           {selectedDate.format("YYYY년 MM월 DD일")}
         </MyText>
       </DatePickerHeaderWrapper>
       <DatePickerBody
-        selectedDate={selectedDate}
+        isOpen={isOpen}
+        isReverse={isReverse}
         setFunc={setFunc}
+        selectedDate={selectedDate}
         disabledDate={disabledDate}
         disabledType={disabledType}
-        isOpen={isOpen}
-        toggleFunc={() => setIsOpen(!isOpen)}
+        toggleFunc={toggleOpen}
       ></DatePickerBody>
     </DatePickerWrapper>
   );

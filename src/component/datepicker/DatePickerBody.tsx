@@ -6,10 +6,12 @@ import { MyText } from "../myText";
 
 interface DatePickerBodyWrapperProps {
   isOpen: boolean;
+  isReverse: boolean;
 }
 
 interface DatePickerBodyProps {
   isOpen: boolean;
+  isReverse?: boolean;
   toggleFunc: () => void;
   selectedDate: Dayjs;
   setFunc: any;
@@ -17,22 +19,26 @@ interface DatePickerBodyProps {
   disabledType: "before" | "after";
 }
 
-const DatePickerBodyWrapper = styled.div<DatePickerBodyWrapperProps>`
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-  position: absolute;
-  margin-top: 8px;
-  border-radius: 8px;
-  width: 320px;
-  height: 346px;
-
-  box-shadow: 0 4px 4px 0 ${({ theme }) => theme.color["black-16"]};
-  background-color: ${({ theme }) => theme.color.white};
-`;
+const DatePickerBodyWrapper = styled.div<DatePickerBodyWrapperProps>(
+  ({ theme, isOpen, isReverse }) => {
+    return {
+      display: isOpen ? "block" : "none",
+      transform: `translateY(${isReverse ? "-400px" : "8px"})`,
+      position: "absolute",
+      borderRadius: "8px",
+      width: "320px",
+      height: "346px",
+      boxShadow: `0 4px 4px 0 ${theme.color["black-16"]}`,
+      backgroundColor: theme.color.white,
+    };
+  }
+);
 
 const DayNameArr = ["월", "화", "수", "목", "금", "토", "일"];
 
 const DatePickerBody: React.FC<DatePickerBodyProps> = ({
   isOpen,
+  isReverse = false,
   toggleFunc,
   selectedDate,
   setFunc,
@@ -47,7 +53,7 @@ const DatePickerBody: React.FC<DatePickerBodyProps> = ({
   );
 
   return (
-    <DatePickerBodyWrapper isOpen={isOpen}>
+    <DatePickerBodyWrapper isReverse={isReverse} isOpen={isOpen}>
       <Header>
         <MyText myFont="medium-18">{curDate.format("YYYY년 MM월")}</MyText>
         <ArrowWrapper>

@@ -1,14 +1,22 @@
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { MyText, Dropdown, DatePicker, ActionButton } from "./component";
 
 const TestPage: React.FC = () => {
   const [startDate, setStartDate] = useState(dayjs());
   const [endDate, setEndDate] = useState(startDate.add(1, "day"));
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const [backgroundHeight, setBackgroundHeight] = useState<number>(0);
+
+  useEffect(() => {
+    if (backgroundRef && backgroundRef.current) {
+      setBackgroundHeight(backgroundRef.current.offsetHeight);
+    }
+  }, [backgroundRef]);
 
   return (
-    <BackgroundWrapper>
+    <BackgroundWrapper ref={backgroundRef}>
       <SelectTimeAreaWrapper>
         <SelectTimeAreaTitle>
           <MyText myFont="bold-32" myColor="gray-20">
@@ -22,6 +30,7 @@ const TestPage: React.FC = () => {
             </StartTimeTitle>
             <StartTimeSelectArea>
               <DatePicker
+                backgroundHeight={backgroundHeight}
                 width="236px"
                 selectedDate={startDate}
                 setFunc={setStartDate}
@@ -53,6 +62,7 @@ const TestPage: React.FC = () => {
             </StartTimeTitle>
             <StartTimeSelectArea>
               <DatePicker
+                backgroundHeight={backgroundHeight}
                 width="236px"
                 selectedDate={endDate}
                 setFunc={setEndDate}
@@ -77,8 +87,8 @@ const TestPage: React.FC = () => {
             </StartTimeSelectArea>
           </StartTimeWrapper>
         </SelectTimeAreaContent>
-        <ActionAreaWrapper>
-          <ActionArea>
+        <ButtonAreaWrapper>
+          <ButtonArea>
             <ActionButton>
               <MyText myFont="medium-16">취소</MyText>
             </ActionButton>
@@ -87,19 +97,19 @@ const TestPage: React.FC = () => {
                 완료
               </MyText>
             </ActionButton>
-          </ActionArea>
-        </ActionAreaWrapper>
+          </ButtonArea>
+        </ButtonAreaWrapper>
       </SelectTimeAreaWrapper>
     </BackgroundWrapper>
   );
 };
 
-const ActionArea = styled.div`
+const ButtonArea = styled.div`
   display: inline-flex;
   column-gap: 16px;
 `;
 
-const ActionAreaWrapper = styled.div`
+const ButtonAreaWrapper = styled.div`
   text-align: right;
   margin-top: 56px;
   width: 100%;

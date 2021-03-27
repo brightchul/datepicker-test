@@ -1,8 +1,8 @@
-import { cx, css } from "@emotion/css";
 import styled from "@emotion/styled";
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import React, { useState } from "react";
 import { MyText } from "../myText";
+import { OneDate } from "./OneDate";
 
 interface DatePickerBodyWrapperProps {
   isOpen: boolean;
@@ -13,10 +13,7 @@ interface DatePickerBodyProps {
   isOpen: boolean;
   isReverse?: boolean;
   toggleFunc: () => void;
-  selectedDate: Dayjs;
-  setFunc: any;
-  disabledDate: Dayjs;
-  disabledType: "before" | "after";
+  disabledType: "startDate" | "endDate";
 }
 
 const DatePickerBodyWrapper = styled.div<DatePickerBodyWrapperProps>(
@@ -39,10 +36,6 @@ const DayNameArr = ["월", "화", "수", "목", "금", "토", "일"];
 const DatePickerBody: React.FC<DatePickerBodyProps> = ({
   isOpen,
   isReverse = false,
-  toggleFunc,
-  selectedDate,
-  setFunc,
-  disabledDate,
   disabledType,
 }) => {
   const [curDate, setCurDate] = useState(dayjs().set("date", 1));
@@ -83,12 +76,9 @@ const DatePickerBody: React.FC<DatePickerBodyProps> = ({
 
               return (
                 <OneDate
-                  onClick={setFunc}
                   key={targetDate.valueOf()}
-                  selectedDate={selectedDate}
                   targetDate={targetDate}
                   curDate={curDate}
-                  disabledDate={disabledDate}
                   disabledType={disabledType}
                 />
               );
@@ -98,116 +88,6 @@ const DatePickerBody: React.FC<DatePickerBodyProps> = ({
     </DatePickerBodyWrapper>
   );
 };
-
-const OneDate = ({
-  onClick,
-  targetDate,
-  selectedDate,
-  curDate,
-  disabledDate,
-  disabledType,
-}: {
-  onClick: Function;
-  selectedDate: Dayjs;
-  curDate: Dayjs;
-  targetDate: Dayjs;
-  disabledDate: Dayjs;
-  disabledType: any;
-}) => {
-  const isSelected = selectedDate.isSame(targetDate, "date");
-  const isDisable = checkDisabled(targetDate, disabledDate, disabledType);
-  const cssString = checkDateType(curDate, targetDate, isDisable, isSelected);
-
-  return (
-    <OneDateWrapper
-      onClick={() => isDisable || onClick(targetDate)}
-      className={cx(cssString)}
-    >
-      <OneDateTextWrapper>
-        <MyText myFont="medium-18">{targetDate.get("date")}</MyText>
-      </OneDateTextWrapper>
-    </OneDateWrapper>
-  );
-};
-
-const checkDisabled = (
-  targetDate: Dayjs,
-  disabledDate: Dayjs,
-  disabledType: "before" | "after"
-) => {
-  switch (disabledType) {
-    case "before":
-      if (Math.abs(disabledDate.diff(targetDate, "hour")) < 24) {
-        return disabledDate.get("date") >= targetDate.get("date");
-      }
-      return disabledDate >= targetDate;
-    case "after":
-      if (Math.abs(disabledDate.diff(targetDate, "hour")) < 24) {
-        return disabledDate.get("date") <= targetDate.get("date");
-      }
-      return disabledDate <= targetDate;
-    default:
-      throw new Error(`disabledType : ${disabledType} is not defined!!`);
-  }
-};
-
-const checkDateType: (
-  curDate: Dayjs,
-  targetDate: Dayjs,
-  isDisable?: boolean,
-  isSelected?: boolean
-) => string = (curDate, targetDate, isDisable, isSelected) => {
-  if (isSelected) return selectedDate;
-  if (isDisable) return disabledDate;
-  if (curDate.isSame(targetDate, "month")) return currentMonthDate;
-  return notCurrentMonthDate;
-};
-
-const disabledDate = css`
-  background-color: rgba(76, 128, 241, 0.01);
-  color: rgba(76, 128, 241, 0.2);
-`;
-
-const notCurrentMonthDate = css`
-  cursor: pointer;
-  color: #c8c7cc;
-
-  :hover {
-    color: #4c80f1;
-    background-color: rgba(76, 128, 241, 0.08);
-  }
-`;
-
-const currentMonthDate = css`
-  cursor: pointer;
-  color: #666666;
-  :hover {
-    color: #4c80f1;
-    background-color: rgba(76, 128, 241, 0.08);
-  }
-`;
-
-const selectedDate = css`
-  cursor: pointer;
-  color: #fff;
-  background-color: #4c80f1;
-  :hover {
-    background-color: #4371d4;
-  }
-`;
-
-const OneDateWrapper = styled.div`
-  height: 32px;
-  width: 32px;
-  text-align: center;
-  border-radius: 50%;
-`;
-
-const OneDateTextWrapper = styled.div`
-  margin-bottom: 3px;
-  margin-top: 1px;
-  width: 100%;
-`;
 
 const DayNameArea = styled.div`
   display: flex;
